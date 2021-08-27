@@ -41,7 +41,7 @@ class Home extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(
-                      child:Text("Poems | all | poets",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                      child:Text('Poems | all | poets',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                     )
                   ],
                 )),
