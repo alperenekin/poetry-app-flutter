@@ -17,9 +17,18 @@ abstract class PoemViewModel with Store {
   @observable
   List<String?>? authorList;
 
+  @observable
+  bool isLoading = false;
+
   @action
   Future<void> fetchAuthors() async {
+    changeLoading();
     authorList = await _poemService.getAllAuthors();
+    changeLoading();
+  }
 
+  @action
+  void changeLoading(){
+    isLoading = !isLoading;
   }
 }

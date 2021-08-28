@@ -24,6 +24,21 @@ mixin _$PoemViewModelStore on PoemViewModel, Store {
     });
   }
 
+  final _$isLoadingAtom = Atom(name: 'PoemViewModel.isLoading');
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
   final _$fetchAuthorsAsyncAction = AsyncAction('PoemViewModel.fetchAuthors');
 
   @override
@@ -31,10 +46,25 @@ mixin _$PoemViewModelStore on PoemViewModel, Store {
     return _$fetchAuthorsAsyncAction.run(() => super.fetchAuthors());
   }
 
+  final _$PoemViewModelActionController =
+      ActionController(name: 'PoemViewModel');
+
+  @override
+  void changeLoading() {
+    final _$actionInfo = _$PoemViewModelActionController.startAction(
+        name: 'PoemViewModel.changeLoading');
+    try {
+      return super.changeLoading();
+    } finally {
+      _$PoemViewModelActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-authorList: ${authorList}
+authorList: ${authorList},
+isLoading: ${isLoading}
     ''';
   }
 }
