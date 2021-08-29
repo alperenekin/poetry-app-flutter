@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
+import 'package:poem_app/core/base/base_viewmodel.dart';
+import 'package:poem_app/core/init/navigation/navigation_constants.dart';
 import 'package:poem_app/view/poem/service/poem_service.dart';
 
 part 'poem_viewmodel.g.dart';
 
 class PoemViewModelStore = PoemViewModel with _$PoemViewModelStore;
 
-abstract class PoemViewModel with Store {
+abstract class PoemViewModel with Store, BaseViewModel {
   late IPoemService _poemService;
 
   void init() {
@@ -31,4 +33,9 @@ abstract class PoemViewModel with Store {
   void changeLoading(){
     isLoading = !isLoading;
   }
+
+  void navigateToAuthorView(String author) {
+    navigation.navigateToPage(NavigationConstants.AUTHOR_VIEW, object: author);
+  }
+
 }

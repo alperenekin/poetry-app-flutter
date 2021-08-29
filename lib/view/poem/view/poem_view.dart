@@ -79,7 +79,16 @@ class _PoemViewState extends State<PoemView> {
       leading: CircleAvatar(
         backgroundColor: Colors.green,
       ),
-      trailing: Icon(Icons.info, color: Colors.black),
+      trailing: IconButton(
+        icon: Icon(
+          Icons.info,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          viewModel.navigateToAuthorView(viewModel.authorList?[index] ?? '');
+          print('asf');
+        },
+      ),
     );
   }
 }
