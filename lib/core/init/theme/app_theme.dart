@@ -17,7 +17,6 @@ class AppTheme{
           shape: CircularNotchedRectangle(),
         ),
         primaryIconTheme: IconThemeData(color: ColorTheme.PRIMARY_BLUE),
-        cursorColor: ColorTheme.PRIMARY_RED,
         floatingActionButtonTheme: FloatingActionButtonThemeData(
             backgroundColor: ColorTheme.PRIMARY_BLUE),
         colorScheme: colorScheme(),
