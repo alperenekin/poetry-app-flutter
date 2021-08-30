@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:poem_app/core/components/background_container.dart';
 import 'package:poem_app/view/author/viewmodel/author_viewmodel.dart';
+import 'package:poem_app/view/poem/model/poem_model.dart';
 
 class AuthorView extends StatefulWidget {
   final String? authorName;
@@ -31,13 +33,8 @@ class _AuthorViewState extends State<AuthorView> {
     );
   }
 
-  Container backgroundContainer() {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/bg.jpeg"), fit: BoxFit.cover)),
+  BackgroundContainer backgroundContainer() {
+    return BackgroundContainer(
       child: Column(
         children: [
           titleBar,
@@ -88,8 +85,7 @@ class _AuthorViewState extends State<AuthorView> {
           color: Colors.black,
         ),
         onPressed: () {
-          viewModel.navigateToPoems();
-          print('asf');
+          viewModel.navigateToPoems(viewModel.poemList?[index] ?? PoemModel());
         },
       ),    );
   }

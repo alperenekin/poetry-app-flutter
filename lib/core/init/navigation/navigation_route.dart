@@ -20,7 +20,7 @@ class NavigationRoute {
       case NavigationConstants.POEM_VIEW:
         return _navigateToSizeDefault(PoemView(), settings);
       case NavigationConstants.POEM_DETAIL:
-        return _navigateToSizeDefault(PoemDetailView(poems: settings.arguments as List<PoemModel>), settings);
+        return _navigateToSizeDefault(PoemDetailView(poem: settings.arguments as PoemModel), settings);
       default:
         return _normalNavigate(Scaffold(
           body: Text("Not Found"),

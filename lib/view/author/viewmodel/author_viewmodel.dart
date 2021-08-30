@@ -35,8 +35,8 @@ abstract class AuthorViewModel with Store, BaseViewModel {
     isLoading = !isLoading;
   }
 
-  void navigateToPoems() {
-    navigation.navigateToPage(NavigationConstants.POEM_DETAIL, object: poemList);
+  void navigateToPoems(PoemModel poem) {
+    navigation.navigateToPage(NavigationConstants.POEM_DETAIL, object: poem);
   }
 
 }

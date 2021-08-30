@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:poem_app/core/components/background_container.dart';
 import 'package:poem_app/view/poem/viewmodel/poem_viewmodel.dart';
 
 class PoemView extends StatefulWidget {
@@ -28,13 +29,8 @@ class _PoemViewState extends State<PoemView> {
     );
   }
 
-  Container backgroundContainer() {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/bg.jpeg"), fit: BoxFit.cover)),
+  BackgroundContainer backgroundContainer() {
+    return BackgroundContainer(
       child: Column(
         children: [
           titleBar,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:poem_app/core/components/background_container.dart';
+import 'package:poem_app/core/extension/content_extension.dart';
 import 'package:poem_app/view/poem/model/poem_model.dart';
 
 class PoemDetailView extends StatefulWidget {
-  final List<PoemModel> poems;
+  final PoemModel poem;
 
-  const PoemDetailView({Key? key, required this.poems}) : super(key: key);
+  const PoemDetailView({Key? key, required this.poem}) : super(key: key);
   @override
   _PoemDetailViewState createState() => _PoemDetailViewState();
 }
@@ -18,13 +20,8 @@ class _PoemDetailViewState extends State<PoemDetailView> {
     );
   }
 
-  Container backgroundContainer() {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/bg.jpeg"), fit: BoxFit.cover)),
+  BackgroundContainer backgroundContainer() {
+    return BackgroundContainer(
       child: Column(
         children: [
           titleBar,
@@ -39,39 +36,43 @@ class _PoemDetailViewState extends State<PoemDetailView> {
       padding: const EdgeInsets.only(top: 35.0),
       child: Center(
           child: Text(
-            'All Poets',
+            widget.poem.title ?? '',
             textScaleFactor: 2,
           )),
     );
   }
 
-  Flexible bodyListView() {
-    return Flexible(
-        child: ListView.builder(
-          itemCount: widget.poems.length,
-          itemBuilder: (BuildContext context, int index) {
-            return authorListTile(index);
-          },
+  Expanded bodyListView() {
+    String lines = convertLinesToPoem();
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Row(
+          children: [
+            Spacer(flex: 1,),
+            Expanded(flex: 4,child: Column(
+              children: [
+                Text(lines,textScaleFactor: 1.2,),
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      widget.poem.author ?? '',
+                      textScaleFactor: 2,
+                    )),
+                context.emptySizedHeightBoxLow3x
+              ],
+            )),
+            Spacer(flex: 1,),
+          ],
+        ),
       ),
     );
   }
 
-  ListTile authorListTile(int index) {
-    String poem = '';
-    widget.poems[index].lines?.forEach((element) {
-      poem += element! + '\n';
+  String convertLinesToPoem() {
+    String lines = '';
+    widget.poem.lines?.forEach((element) {
+      lines += element! + '\n';
     });
-    return ListTile(
-        title: Text(
-          poem ?? 'null',
-          textScaleFactor: 1.2,
-        ),
-        leading: CircleAvatar(
-          backgroundColor: Colors.green,
-        ),
-        trailing: Icon(
-          Icons.info,
-          color: Colors.black,
-        ));
+    return lines;
   }
 }
