@@ -82,7 +82,15 @@ class _AuthorViewState extends State<AuthorView> {
       leading: CircleAvatar(
         backgroundColor: Colors.green,
       ),
-      trailing: Icon(Icons.info, color: Colors.black),
-    );
+      trailing: IconButton(
+        icon: Icon(
+          Icons.info,
+          color: Colors.black,
+        ),
+        onPressed: () {
+          viewModel.navigateToPoems();
+          print('asf');
+        },
+      ),    );
   }
 }

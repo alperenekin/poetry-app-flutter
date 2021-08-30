@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:mobx/mobx.dart';
 import 'package:poem_app/core/base/base_viewmodel.dart';
+import 'package:poem_app/core/init/navigation/navigation_constants.dart';
 import 'package:poem_app/view/poem/model/poem_model.dart';
 import 'package:poem_app/view/poem/service/poem_service.dart';
 
@@ -32,6 +33,10 @@ abstract class AuthorViewModel with Store, BaseViewModel {
   @action
   void changeLoading() {
     isLoading = !isLoading;
+  }
+
+  void navigateToPoems() {
+    navigation.navigateToPage(NavigationConstants.POEM_DETAIL, object: poemList);
   }
 
 }

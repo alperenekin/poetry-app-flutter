@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:poem_app/core/init/navigation/transitions/fade_route.dart';
 import 'package:poem_app/core/init/navigation/transitions/size_route.dart';
 import 'package:poem_app/view/author/view/author_view.dart';
+import 'package:poem_app/view/poem/model/poem_model.dart';
 import 'package:poem_app/view/poem/view/poem_view.dart';
+import 'package:poem_app/view/poemdetail/view/poem_detail_view.dart';
 
 import 'navigation_constants.dart';
 
@@ -17,6 +19,8 @@ class NavigationRoute {
         return _navigateToFadeDefault(AuthorView(authorName: settings.arguments as String?), settings);
       case NavigationConstants.POEM_VIEW:
         return _navigateToSizeDefault(PoemView(), settings);
+      case NavigationConstants.POEM_DETAIL:
+        return _navigateToSizeDefault(PoemDetailView(poems: settings.arguments as List<PoemModel>), settings);
       default:
         return _normalNavigate(Scaffold(
           body: Text("Not Found"),
