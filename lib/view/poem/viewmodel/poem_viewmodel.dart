@@ -22,11 +22,24 @@ abstract class PoemViewModel with Store, BaseViewModel {
   @observable
   bool isLoading = false;
 
+  List<String?>? letterList = [];
+
   @action
   Future<void> fetchAuthors() async {
     changeLoading();
     authorList = await _poemService.getAllAuthors();
+    findLetters();
     changeLoading();
+  }
+
+  void findLetters(){ // to find all first letters in author names
+    authorList?.forEach((element) {
+      var letter = element?[0];
+      if(!letterList!.contains(letter)){
+        letterList?.add(letter);
+      }
+    });
+    letterList?.sort(); // for our case, don't need to sort.
   }
 
   @action

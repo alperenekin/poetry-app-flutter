@@ -10,6 +10,7 @@ class PoemView extends StatefulWidget {
 
 class _PoemViewState extends State<PoemView> {
   final PoemViewModel viewModel = PoemViewModelStore();
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -52,16 +53,48 @@ class _PoemViewState extends State<PoemView> {
   }
 
   Flexible bodyListView() {
-    return Flexible(
+    return Expanded(
       child: Observer(builder: (context) {
         return viewModel.isLoading
             ? Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: viewModel.authorList?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return authorListTile(index);
-                },
-              );
+            : Row(
+              children: [
+                Flexible(
+                  flex: 9,
+                  child: ListView.builder(
+                      itemCount: viewModel.authorList?.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return authorListTile(index);
+                      },
+                    ),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: PageView.builder(
+                    physics: PageScrollPhysics(),
+                    onPageChanged: (value) {
+                      setState(() {
+                        print(value);
+                        selectedIndex = value;
+                      });
+                    },
+                    controller: PageController(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: viewModel.letterList?.length,
+                    itemBuilder: (context, index) {
+                      print(index);
+                        return Center(
+                            child: Text(viewModel.letterList?[index] ?? '',
+                                style: selectedIndex == index
+                                    ? TextStyle(fontSize: 35, fontWeight: FontWeight.bold)
+                                    : TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                      )));
+                      },
+                  ),
+                )
+              ],
+            );
       }),
     );
   }
@@ -82,7 +115,6 @@ class _PoemViewState extends State<PoemView> {
         ),
         onPressed: () {
           viewModel.navigateToAuthorView(viewModel.authorList?[index] ?? '');
-          print('asf');
         },
       ),
     );
