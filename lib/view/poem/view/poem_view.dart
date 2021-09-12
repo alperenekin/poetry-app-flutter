@@ -61,42 +61,51 @@ class _PoemViewState extends State<PoemView> {
               children: [
                 Flexible(
                   flex: 9,
-                  child: ListView.builder(
-                      itemCount: viewModel.authorList?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return authorListTile(index);
-                      },
-                    ),
+                  child: authorsListView,
                 ),
                 Flexible(
                   flex: 1,
-                  child: PageView.builder(
-                    physics: PageScrollPhysics(),
-                    onPageChanged: (value) {
-                      setState(() {
-                        print(value);
-                        selectedIndex = value;
-                      });
-                    },
-                    controller: PageController(),
-                    scrollDirection: Axis.vertical,
-                    itemCount: viewModel.letterList?.length,
-                    itemBuilder: (context, index) {
-                      print(index);
-                        return Center(
-                            child: Text(viewModel.letterList?[index] ?? '',
-                                style: selectedIndex == index
-                                    ? TextStyle(fontSize: 35, fontWeight: FontWeight.bold)
-                                    : TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                      )));
-                      },
-                  ),
+                  child: letterPageView,
                 )
               ],
             );
       }),
     );
+  }
+  ListView get authorsListView {
+    return ListView.builder(
+      itemCount: viewModel.authorList?.length,
+      itemBuilder: (BuildContext context, int index) {
+        return authorListTile(index);
+      },
+    );
+  }
+
+  PageView get letterPageView {
+    return PageView.builder(
+      physics: PageScrollPhysics(),
+      onPageChanged: (value) {
+        setState(() {
+          print(value);
+          selectedIndex = value;
+        });
+      },
+      controller: PageController(),
+      scrollDirection: Axis.vertical,
+      itemCount: viewModel.letterList?.length,
+      itemBuilder: (context, index) {
+        print(index);
+        return letterText(index);
+      },
+    );
+  }
+
+  Center letterText(int index) {
+    return Center(
+        child: Text(viewModel.letterList?[index] ?? '',
+            style: selectedIndex == index
+                ? TextStyle(fontSize: 35, fontWeight: FontWeight.bold)
+                : TextStyle(fontWeight: FontWeight.normal,)));
   }
 
   ListTile authorListTile(int index) {
