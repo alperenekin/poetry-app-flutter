@@ -10,7 +10,6 @@ class PoemView extends StatefulWidget {
 
 class _PoemViewState extends State<PoemView> {
   final PoemViewModel viewModel = PoemViewModelStore();
-  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -72,46 +71,20 @@ class _PoemViewState extends State<PoemView> {
       }),
     );
   }
+
   ListView get authorsListView {
     return ListView.builder(
-      itemCount: viewModel.authorList?.length,
+      itemCount: viewModel.searchedAuthors!.isEmpty ? viewModel.authorList?.length : viewModel.searchedAuthors?.length,
       itemBuilder: (BuildContext context, int index) {
         return authorListTile(index);
       },
     );
   }
 
-  PageView get letterPageView {
-    return PageView.builder(
-      physics: PageScrollPhysics(),
-      onPageChanged: (value) {
-        setState(() {
-          print(value);
-          selectedIndex = value;
-        });
-      },
-      controller: PageController(),
-      scrollDirection: Axis.vertical,
-      itemCount: viewModel.letterList?.length,
-      itemBuilder: (context, index) {
-        print(index);
-        return letterText(index);
-      },
-    );
-  }
-
-  Center letterText(int index) {
-    return Center(
-        child: Text(viewModel.letterList?[index] ?? '',
-            style: selectedIndex == index
-                ? TextStyle(fontSize: 35, fontWeight: FontWeight.bold)
-                : TextStyle(fontWeight: FontWeight.normal,)));
-  }
-
   ListTile authorListTile(int index) {
     return ListTile(
       title: Text(
-        viewModel.authorList?[index] ?? 'null',
+        authorName(index),
         textScaleFactor: 1.2,
       ),
       leading: CircleAvatar(
@@ -123,9 +96,44 @@ class _PoemViewState extends State<PoemView> {
           color: Colors.black,
         ),
         onPressed: () {
-          viewModel.navigateToAuthorView(viewModel.authorList?[index] ?? '');
+          viewModel.navigateToAuthorView(authorName(index));
         },
       ),
     );
+  }
+
+  String authorName(int index){
+    return viewModel.searchedAuthors!.isEmpty ? (viewModel.authorList?[index] ?? '') : (viewModel.searchedAuthors?[index] ?? '');
+  }
+
+  PageView get letterPageView {
+    return PageView.builder(
+      physics: PageScrollPhysics(),
+      onPageChanged: (value) {
+        viewModel.changeIndex(value);
+        viewModel.findAuthors(viewModel.letterList?[value] ?? '');
+      },
+      controller: PageController(viewportFraction: 0.1),
+      scrollDirection: Axis.vertical,
+      itemCount: viewModel.letterList?.length,
+      itemBuilder: (context, index) {
+        return letterText(index);
+      },
+    );
+  }
+
+  Center letterText(int index) {
+    return Center(
+        child: index == 0
+            ? Icon(
+                Icons.wifi_protected_setup,
+                color: Colors.black,
+              )
+            : Observer(builder: (context) {
+                return Text(viewModel.letterList?[index] ?? '',
+                    style: viewModel.selectedIndex == index
+                        ? TextStyle(fontSize: 35, fontWeight: FontWeight.bold)
+                        : TextStyle(fontWeight: FontWeight.normal));
+              }));
   }
 }

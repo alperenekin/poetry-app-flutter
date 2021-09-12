@@ -39,6 +39,36 @@ mixin _$PoemViewModelStore on PoemViewModel, Store {
     });
   }
 
+  final _$searchedAuthorsAtom = Atom(name: 'PoemViewModel.searchedAuthors');
+
+  @override
+  List<String?>? get searchedAuthors {
+    _$searchedAuthorsAtom.reportRead();
+    return super.searchedAuthors;
+  }
+
+  @override
+  set searchedAuthors(List<String?>? value) {
+    _$searchedAuthorsAtom.reportWrite(value, super.searchedAuthors, () {
+      super.searchedAuthors = value;
+    });
+  }
+
+  final _$selectedIndexAtom = Atom(name: 'PoemViewModel.selectedIndex');
+
+  @override
+  int get selectedIndex {
+    _$selectedIndexAtom.reportRead();
+    return super.selectedIndex;
+  }
+
+  @override
+  set selectedIndex(int value) {
+    _$selectedIndexAtom.reportWrite(value, super.selectedIndex, () {
+      super.selectedIndex = value;
+    });
+  }
+
   final _$fetchAuthorsAsyncAction = AsyncAction('PoemViewModel.fetchAuthors');
 
   @override
@@ -48,6 +78,28 @@ mixin _$PoemViewModelStore on PoemViewModel, Store {
 
   final _$PoemViewModelActionController =
       ActionController(name: 'PoemViewModel');
+
+  @override
+  void changeIndex(int index) {
+    final _$actionInfo = _$PoemViewModelActionController.startAction(
+        name: 'PoemViewModel.changeIndex');
+    try {
+      return super.changeIndex(index);
+    } finally {
+      _$PoemViewModelActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void findAuthors(String firstLetter) {
+    final _$actionInfo = _$PoemViewModelActionController.startAction(
+        name: 'PoemViewModel.findAuthors');
+    try {
+      return super.findAuthors(firstLetter);
+    } finally {
+      _$PoemViewModelActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void changeLoading() {
@@ -64,7 +116,9 @@ mixin _$PoemViewModelStore on PoemViewModel, Store {
   String toString() {
     return '''
 authorList: ${authorList},
-isLoading: ${isLoading}
+isLoading: ${isLoading},
+searchedAuthors: ${searchedAuthors},
+selectedIndex: ${selectedIndex}
     ''';
   }
 }
